@@ -38,7 +38,8 @@ const userSchema = new mongoose.Schema({
 
     friends: [{
         type: mongoose.Schema.ObjectId,
-        ref: 'User'
+        ref: 'User',
+        default: []
     }]
 });
 /* Schmea Middlewares*/
@@ -52,6 +53,12 @@ userSchema.pre('save', async function (next) {
     next();
 })
 
+userSchema.post('save', async function (next) {
+    await this.populate({
+        path: 'friends',
+        select: '_id firstName lastName occupation location picturePath'
+    });
+})
 
 
 
