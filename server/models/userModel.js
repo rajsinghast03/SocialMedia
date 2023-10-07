@@ -1,6 +1,7 @@
 const mongoose = require('mongoose')
 const validator = require('validator');
-const user = new mongoose.Schema({
+const bcrypt = require('bcrypt');
+const userSchema = new mongoose.Schema({
     firstName: {
         type: String,
         required: [true, 'Please Provide your first name']
@@ -23,7 +24,37 @@ const user = new mongoose.Schema({
         required: [true, 'Please tell us your password'],
         minlength: 8,
         select: false
+    },
+
+    picturePath: { type: String },
+
+    location: { type: String },
+
+    occupation: { type: String },
+
+    viewedProfile: { type: Number },
+
+    impression: { type: Number },
+
+    friends: [{
+        type: mongoose.Schema.ObjectId,
+        ref: 'User'
+    }]
+});
+/* Schmea Middlewares*/
+
+userSchema.pre('save', async function (next) {
+
+    if (!this.isModified('password')) {
+        return next();
     }
-
-
+    this.password = await bcrypt.hash(this.password, 12);
+    next();
 })
+
+
+
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
