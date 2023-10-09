@@ -5,6 +5,9 @@ const helmet = require("helmet");
 const morgan = require("morgan");
 const path = require("path");
 const userRoutes = require('./routes/userRoutes')
+const postRoutes = require('./routes/postRoutes')
+
+
 /* CONFIGURATIONS */
 const app = express();
 app.use(express.json());
@@ -18,5 +21,6 @@ app.use(express.static(path.join(__dirname, 'public')));
 
 /*  App routers */
 app.use('/api/v1/users', userRoutes)
+app.use('/api/v1/posts', postRoutes)
 
 module.exports = app;

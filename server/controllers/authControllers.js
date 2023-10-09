@@ -71,8 +71,8 @@ exports.login = async (req, res, next) => {
         if (!email || !password)
             throw new Error("Please provide email and password");
         const user = await User.findOne({ email }).select('+password');
-        console.log(user);
-        console.log(password, user.password);
+        
+       
         const isCorrect = await bcrypt.compare(password, user.password)
         if (!user || !isCorrect)
             throw new Error("Incorrect credentials");
