@@ -20,13 +20,14 @@ const UserWidget = ({ userId, picturePath }) => {
   const dark = palette.neutral.dark;
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
-
   const getUser = async () => {
-    const response = await fetch(`http://localhost:3001/users/${userId}`, {
+    const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = await response.json();
+    let data = await response.json();
+    data = data.user;
+    console.log(data);
     setUser(data);
   };
 
@@ -72,7 +73,7 @@ const UserWidget = ({ userId, picturePath }) => {
             >
               {firstName} {lastName}
             </Typography>
-            <Typography color={medium}>{friends.length} friends</Typography>
+            <Typography color={medium}>{friends.length}</Typography>
           </Box>
         </FlexBetween>
         <ManageAccountsOutlined />

@@ -33,21 +33,20 @@ const multerFilter = (req, file, cb) => {
     }
 }
 const upload = multer({
-    storage: multerStorage,
-    fileFilter: multerFilter
+    storage: multerStorage
 });
 
 
-exports.uploadUserPhoto = upload.single('picturePath');
+exports.uploadUserPhoto = upload.single('picture');
 
 
 exports.signup = async (req, res, next) => {
 
     try {
-        console.log(req.body);
 
         const newUser = new User(req.body);
-        newUser.picturePath = `${req.file.destination}/${req.file.originalname}`;
+
+        newUser.picturePath = `${req.file.originalname}`;
         await newUser.save();
         res.status(200).json({
             data: newUser,
@@ -67,12 +66,12 @@ exports.login = async (req, res, next) => {
 
     try {
         const { email, password } = req.body;
-
+        console.log(email, password);
         if (!email || !password)
             throw new Error("Please provide email and password");
         const user = await User.findOne({ email }).select('+password');
-        
-       
+
+
         const isCorrect = await bcrypt.compare(password, user.password)
         if (!user || !isCorrect)
             throw new Error("Incorrect credentials");
@@ -83,9 +82,11 @@ exports.login = async (req, res, next) => {
             httpOnly: true,
 
         })
+        const sent_user=await User.findOne({ email }).select("-_v");
         res.status(400).json({
             message: 'Loggedin',
-            token
+            token,
+            user:sent_user
         })
 
     }

@@ -7,25 +7,28 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
   const token = useSelector((state) => state.token);
-
+  const friends = useSelector((state) => state.user.friends);
   const getPosts = async () => {
-    const response = await fetch("http://localhost:3001/posts", {
+    const response = await fetch("http://localhost:8000/api/v1/posts", {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
     });
-    const data = await response.json();
+    let data = await response.json();
+    data = await data.posts;
     dispatch(setPosts({ posts: data }));
+    console.log(posts)
   };
 
   const getUserPosts = async () => {
     const response = await fetch(
-      `http://localhost:3001/posts/${userId}/posts`,
+      `http://localhost:8000/api/v1/posts/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    const data = await response.json();
+    let data = await response.json();
+    data = data.posts;
     dispatch(setPosts({ posts: data }));
   };
 
@@ -35,7 +38,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     } else {
       getPosts();
     }
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [posts, friends]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <>
@@ -67,6 +70,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
         )
       )}
     </>
+
   );
 };
 
