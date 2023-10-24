@@ -23,6 +23,7 @@ const PostWidget = ({
   likes,
   comments,
 }) => {
+
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
@@ -30,12 +31,13 @@ const PostWidget = ({
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
 
+
+
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
-
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:3001/posts/${postId}/like`, {
+    const response = await fetch(`http://localhost:8000/api/v1/posts/${postId}/like`, {
       method: "PATCH",
       headers: {
         Authorization: `Bearer ${token}`,
@@ -43,9 +45,11 @@ const PostWidget = ({
       },
       body: JSON.stringify({ userId: loggedInUserId }),
     });
-    const updatedPost = await response.json();
+    let updatedPost = await response.json();
+    updatedPost = await updatedPost.post;
     dispatch(setPost({ post: updatedPost }));
   };
+
 
   return (
     <WidgetWrapper m="2rem 0">
@@ -64,7 +68,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:3001/assets/${picturePath}`}
+          src={`http://localhost:8000/assests/${picturePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">

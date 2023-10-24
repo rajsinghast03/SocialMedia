@@ -3,9 +3,9 @@ const Post = require('../models/postModel')
 
 exports.createPost = async (req, res, next) => {
     try {
-        console.log(req.user);
+        console.log(req.file);
         let { description, picturePath } = req.body;
-        picturePath = req.file.path;
+        picturePath = req.file.filename;
         const newPost = new Post({
             userId: req.user[0]._id,
             firstName: req.user[0].firstName,
@@ -16,7 +16,8 @@ exports.createPost = async (req, res, next) => {
             likes: {
 
             },
-            comments: []
+            comments: [],
+            picturePath
 
         });
         await newPost.save();
@@ -67,7 +68,7 @@ exports.likePost = async (req, res, next) => {
 
         const userId = req.user[0]._id;
         const post = await Post.findById(id);
-    
+
         const isLiked = post.likes.get(userId);
         if (isLiked) {
             post.likes.delete(userId)

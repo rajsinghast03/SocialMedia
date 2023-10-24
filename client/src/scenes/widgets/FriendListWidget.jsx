@@ -9,24 +9,24 @@ const FriendListWidget = ({ userId }) => {
   const dispatch = useDispatch();
   const { palette } = useTheme();
   const token = useSelector((state) => state.token);
-  const friends = useSelector((state) => state.user.friends);
-
+  var friends = useSelector((state) => state.user.friends);
   const getFriends = async () => {
     const response = await fetch(
-      `http://localhost:3001/users/${userId}/friends`,
+      `http://localhost:8000/api/v1/users/${userId}/friends`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
-    const data = await response.json();
+    let data = await response.json();
+    data = await data.freinds
     dispatch(setFriends({ friends: data }));
+    console.log(friends);
   };
 
   useEffect(() => {
     getFriends();
   }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
   return (
     <WidgetWrapper>
       <Typography

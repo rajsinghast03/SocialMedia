@@ -2,7 +2,8 @@ const User = require('../models/userModel');
 var mongoose = require('mongoose');
 exports.getUser = async (req, res, next) => {
     try {
-        const { id } = req.pramas;
+        
+        const { id } = req.params;
         const user = await User.findById(id);
         res.status(200).json({
             user
