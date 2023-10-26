@@ -79,13 +79,16 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
-    const loggedInResponse = await fetch("http://localhost:8000/api/v1/users/login", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(values),
-    });
+    const loggedInResponse = await fetch(
+      "http://localhost:8000/api/v1/users/login",
+      {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(values),
+      }
+    );
     const loggedIn = await loggedInResponse.json();
-    console.log(loggedIn)
+    console.log(loggedIn);
     onSubmitProps.resetForm();
     if (loggedIn) {
       dispatch(
@@ -241,9 +244,12 @@ const Form = () => {
               sx={{
                 m: "2rem 0",
                 p: "1rem",
-                backgroundColor: palette.primary.main,
+                backgroundColor: palette.neutral.dark,
+                borderRadius: "25px",
                 color: palette.background.alt,
-                "&:hover": { color: palette.primary.main },
+                "&:hover": {
+                  backgroundColor: palette.neutral.main,
+                },
               }}
             >
               {isLogin ? "LOGIN" : "REGISTER"}
@@ -256,9 +262,10 @@ const Form = () => {
               sx={{
                 textDecoration: "underline",
                 color: palette.primary.main,
+                borderRadius: "25px",
                 "&:hover": {
                   cursor: "pointer",
-                  color: palette.primary.light,
+                  color: palette.primary.dark,
                 },
               }}
             >
