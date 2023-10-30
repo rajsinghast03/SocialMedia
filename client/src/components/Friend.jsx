@@ -1,4 +1,5 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -65,17 +66,24 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
           </Typography>
         </Box>
       </FlexBetween>
-      {friendId !== _id && < IconButton
-        onClick={() => patchFriend()}
-        sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
-      >
-        {isFriend ? (
-          <PersonRemoveOutlined sx={{ color: primaryDark }} />
-        ) : (
-          <PersonAddOutlined sx={{ color: primaryDark }} />
-        )}
-      </IconButton>}
-    </FlexBetween >
+      {friendId === _id ? (
+        <IconButton>{friendId === _id && <DeleteIcon />}</IconButton> // Delete Post Button
+      ) : (
+        <IconButton
+          onClick={() => patchFriend()}
+          sx={{
+            backgroundColor: primaryLight,
+            p: "0.6rem",
+          }}
+        >
+          {isFriend ? (
+            <PersonRemoveOutlined sx={{ color: primaryDark }} />
+          ) : (
+            <PersonAddOutlined sx={{ color: primaryDark }} />
+          )}
+        </IconButton>
+      )}
+    </FlexBetween>
   );
 };
 

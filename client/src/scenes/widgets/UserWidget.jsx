@@ -4,7 +4,7 @@ import {
   LocationOnOutlined,
   WorkOutlineOutlined,
 } from "@mui/icons-material";
-import { Box, Typography, Divider, useTheme } from "@mui/material";
+import { Box, Typography, Divider, useTheme, IconButton } from "@mui/material";
 import UserImage from "components/UserImage";
 import FlexBetween from "components/FlexBetween";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -21,10 +21,13 @@ const UserWidget = ({ userId, picturePath }) => {
   const medium = palette.neutral.medium;
   const main = palette.neutral.main;
   const getUser = async () => {
-    const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `http://localhost:8000/api/v1/users/${userId}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     let data = await response.json();
     data = data.user;
     console.log(data);
@@ -76,7 +79,10 @@ const UserWidget = ({ userId, picturePath }) => {
             <Typography color={medium}>{friends.length}</Typography>
           </Box>
         </FlexBetween>
-        <ManageAccountsOutlined />
+        <IconButton>
+          {" "}
+          <ManageAccountsOutlined />
+        </IconButton>
       </FlexBetween>
 
       <Divider />
