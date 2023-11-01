@@ -1,5 +1,5 @@
 import { PersonAddOutlined, PersonRemoveOutlined } from "@mui/icons-material";
-import DeleteIcon from "@mui/icons-material/Delete";
+
 import { Box, IconButton, Typography, useTheme } from "@mui/material";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
@@ -7,7 +7,7 @@ import { setFriends } from "state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath, postId, getPosts, getUserPost, isProfile }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
@@ -22,24 +22,6 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId, getPosts, g
 
   const isFriend = friends.find((friend) => friend._id === friendId);
 
-  const deletePost = async () => {
-
-    await fetch(
-      `http://localhost:8000/api/v1/posts/${postId}`,
-      {
-        method: "DELETE",
-        headers: {
-          Authorization: `Bearer ${token}`,
-
-        },
-      }
-    );
-    if (isProfile)
-      getUserPost()
-    else
-      getPosts();
-
-  }
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:8000/api/v1/users/${_id}/${friendId}`,
@@ -84,15 +66,10 @@ const Friend = ({ friendId, name, subtitle, userPicturePath, postId, getPosts, g
           </Typography>
         </Box>
       </FlexBetween>
-      {friendId === _id ? (
-        <IconButton>{friendId === _id && <DeleteIcon onClick={() => deletePost()} />}</IconButton> // Delete Post Button
-      ) : (
+      {friendId !== _id && (
         <IconButton
           onClick={() => patchFriend()}
-          sx={{
-            backgroundColor: primaryLight,
-            p: "0.6rem",
-          }}
+          sx={{ backgroundColor: primaryLight, p: "0.6rem" }}
         >
           {isFriend ? (
             <PersonRemoveOutlined sx={{ color: primaryDark }} />

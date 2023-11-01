@@ -4,7 +4,6 @@ import { setPosts } from "state";
 import PostWidget from "./PostWidget";
 import CircularProgress from "@mui/material/CircularProgress";
 
-
 const PostsWidget = ({ userId, isProfile = false }) => {
   const dispatch = useDispatch();
   const posts = useSelector((state) => state.posts);
@@ -45,7 +44,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   return (
     <>
-      {loading ? <><div style={{ display: 'flex', justifyContent: 'center' }}><CircularProgress /></div></> :
+      {loading ? (
+        <>
+          <div style={{ display: "flex", justifyContent: "center" }}>
+            <CircularProgress />
+          </div>
+        </>
+      ) : (
         posts.map(
           ({
             _id,
@@ -75,9 +80,9 @@ const PostsWidget = ({ userId, isProfile = false }) => {
               getUserPosts={getUserPosts}
             />
           )
-        )}
+        )
+      )}
     </>
-
   );
 };
 

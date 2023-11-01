@@ -5,6 +5,7 @@ import {
   ShareOutlined,
 } from "@mui/icons-material";
 import { Box, Divider, IconButton, Typography, useTheme } from "@mui/material";
+import DeleteIcon from "@mui/icons-material/Delete";
 import FlexBetween from "components/FlexBetween";
 import Friend from "components/Friend";
 import WidgetWrapper from "components/WidgetWrapper";
@@ -24,38 +25,54 @@ const PostWidget = ({
   comments,
   getPosts,
   isProfile,
-  getUserPosts
+  getUserPosts,
+  getUserPost,
 }) => {
-
   const [isComments, setIsComments] = useState(false);
   const dispatch = useDispatch();
   const token = useSelector((state) => state.token);
+  const { _id } = useSelector((state) => state.user);
   const loggedInUserId = useSelector((state) => state.user._id);
   const isLiked = Boolean(likes[loggedInUserId]);
   const likeCount = Object.keys(likes).length;
-
-
 
   const { palette } = useTheme();
   const main = palette.neutral.main;
   const primary = palette.primary.main;
   const patchLike = async () => {
-    const response = await fetch(`http://localhost:8000/api/v1/posts/${postId}/like`, {
-      method: "PATCH",
-      headers: {
-        Authorization: `Bearer ${token}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({ userId: loggedInUserId }),
-    });
+    const response = await fetch(
+      `http://localhost:8000/api/v1/posts/${postId}/like`,
+      {
+        method: "PATCH",
+        headers: {
+          Authorization: `Bearer ${token}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ userId: loggedInUserId }),
+      }
+    );
     let updatedPost = await response.json();
     updatedPost = await updatedPost.post;
     dispatch(setPost({ post: updatedPost }));
   };
-
+  const deletePost = async () => {
+    await fetch(`http://localhost:8000/api/v1/posts/${postId}`, {
+      method: "DELETE",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    if (isProfile) getUserPost();
+    else getPosts();
+  };
 
   return (
-    <WidgetWrapper m="2rem 0">
+    <WidgetWrapper
+      m="2rem 0"
+      sx={{
+        position: "relative",
+      }}
+    >
       <Friend
         friendId={postUserId}
         name={name}
@@ -66,6 +83,18 @@ const PostWidget = ({
         isProfile={isProfile}
         getUserPosts={getUserPosts}
       />
+      {postUserId === _id && (
+        <IconButton
+          sx={{
+            position: "absolute",
+            top: "1.5rem",
+            right: "1.5rem",
+          }}
+        >
+          <DeleteIcon fontSize="medium" onClick={deletePost} />
+        </IconButton>
+      )}
+
       <Typography color={main} sx={{ mt: "1rem" }}>
         {description}
       </Typography>
