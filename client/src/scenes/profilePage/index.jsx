@@ -13,8 +13,10 @@ const ProfilePage = () => {
   const { userId } = useParams();
   const token = useSelector((state) => state.token);
   const isNonMobileScreens = useMediaQuery("(min-width:1000px)");
+  const [loading, setLoading] = useState(false);
 
   const getUser = async () => {
+    setLoading(true);
     const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`, {
       method: "GET",
       headers: { Authorization: `Bearer ${token}` },
@@ -22,6 +24,7 @@ const ProfilePage = () => {
     let data = await response.json();
     data = data.user
     setUser(data);
+    setLoading(false)
   };
 
   useEffect(() => {
@@ -31,7 +34,7 @@ const ProfilePage = () => {
   if (!user) return null;
 
   return (
-    <Box>
+    loading ? <>loading</> : <Box>
       <Navbar />
       <Box
         width="100%"
@@ -55,6 +58,7 @@ const ProfilePage = () => {
         </Box>
       </Box>
     </Box>
+
   );
 };
 
