@@ -24,7 +24,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const patchFriend = async () => {
     const response = await fetch(
-      `http://localhost:8000/api/v1/users/${_id}/${friendId}`,
+      `https://socialmedia-zcbw.onrender.com/api/v1/users/${_id}/${friendId}`,
       {
         method: "PATCH",
         headers: {

@@ -11,10 +11,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
   const [loading, setLoading] = useState(false);
   const getPosts = async () => {
     setLoading(true);
-    const response = await fetch("http://localhost:8000/api/v1/posts", {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      "https://socialmedia-zcbw.onrender.com/api/v1/posts",
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     let data = await response.json();
     data = await data.posts;
     dispatch(setPosts({ posts: data }));
@@ -23,7 +26,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
 
   const getUserPosts = async () => {
     const response = await fetch(
-      `http://localhost:8000/api/v1/posts/${userId}`,
+      `https://socialmedia-zcbw.onrender.com/api/v1/posts/${userId}`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },

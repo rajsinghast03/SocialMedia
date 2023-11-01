@@ -41,7 +41,7 @@ const PostWidget = ({
   const primary = palette.primary.main;
   const patchLike = async () => {
     const response = await fetch(
-      `http://localhost:8000/api/v1/posts/${postId}/like`,
+      `https://socialmedia-zcbw.onrender.com/api/v1/posts/${postId}/like`,
       {
         method: "PATCH",
         headers: {
@@ -56,12 +56,15 @@ const PostWidget = ({
     dispatch(setPost({ post: updatedPost }));
   };
   const deletePost = async () => {
-    await fetch(`http://localhost:8000/api/v1/posts/${postId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    });
+    await fetch(
+      `https://socialmedia-zcbw.onrender.com/api/v1/posts/${postId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
     if (isProfile) getUserPost();
     else getPosts();
   };
@@ -104,7 +107,7 @@ const PostWidget = ({
           height="auto"
           alt="post"
           style={{ borderRadius: "0.75rem", marginTop: "0.75rem" }}
-          src={`http://localhost:8000/assests/${picturePath}`}
+          src={`https://socialmedia-zcbw.onrender.com/assests/${picturePath}`}
         />
       )}
       <FlexBetween mt="0.25rem">

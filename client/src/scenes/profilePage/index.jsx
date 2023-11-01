@@ -17,14 +17,17 @@ const ProfilePage = () => {
 
   const getUser = async () => {
     setLoading(true);
-    const response = await fetch(`http://localhost:8000/api/v1/users/${userId}`, {
-      method: "GET",
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    const response = await fetch(
+      `https://socialmedia-zcbw.onrender.com/api/v1/users/${userId}`,
+      {
+        method: "GET",
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
     let data = await response.json();
-    data = data.user
+    data = data.user;
     setUser(data);
-    setLoading(false)
+    setLoading(false);
   };
 
   useEffect(() => {
@@ -33,8 +36,10 @@ const ProfilePage = () => {
 
   if (!user) return null;
 
-  return (
-    loading ? <>loading</> : <Box>
+  return loading ? (
+    <>loading</>
+  ) : (
+    <Box>
       <Navbar />
       <Box
         width="100%"
@@ -58,7 +63,6 @@ const ProfilePage = () => {
         </Box>
       </Box>
     </Box>
-
   );
 };
 

@@ -12,14 +12,14 @@ const FriendListWidget = ({ userId }) => {
   var friends = useSelector((state) => state.user.friends);
   const getFriends = async () => {
     const response = await fetch(
-      `http://localhost:8000/api/v1/users/${userId}/friends`,
+      `https://socialmedia-zcbw.onrender.com/api/v1/users/${userId}/friends`,
       {
         method: "GET",
         headers: { Authorization: `Bearer ${token}` },
       }
     );
     let data = await response.json();
-    data = await data.freinds
+    data = await data.freinds;
     dispatch(setFriends({ friends: data }));
     console.log(friends);
   };
