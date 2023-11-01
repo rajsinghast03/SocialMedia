@@ -18,6 +18,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     });
     let data = await response.json();
     data = await data.posts;
+    console.log(data);
     dispatch(setPosts({ posts: data }));
     setLoading(false);
   };
@@ -32,6 +33,7 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     );
     let data = await response.json();
     data = data.posts;
+    console.log(data);
     dispatch(setPosts({ posts: data }));
   };
 
