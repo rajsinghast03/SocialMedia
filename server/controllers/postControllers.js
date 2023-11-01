@@ -60,6 +60,21 @@ exports.getUserPosts = async (req, res, next) => {
     }
 }
 
+exports.deletePost = async (req, res, next) => {
+    try {
+        const { Id } = req.params;
+
+        await Post.findByIdAndDelete(Id);
+        const posts = await Post.find({});
+
+        res.status(204).json({
+            message: "post deleted",
+            posts
+        });
+    } catch (err) {
+        res.status(404).json({ message: err.message })
+    }
+}
 
 
 exports.likePost = async (req, res, next) => {

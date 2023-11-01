@@ -88,7 +88,8 @@ const Form = () => {
       }
     );
     const loggedIn = await loggedInResponse.json();
-    console.log(loggedIn);
+    if (loggedIn.token === undefined)
+      alert(loggedIn.message);
     onSubmitProps.resetForm();
     if (loggedIn) {
       dispatch(
@@ -97,8 +98,11 @@ const Form = () => {
           token: loggedIn.token,
         })
       );
+
       navigate("/home");
     }
+
+
   };
 
   const handleFormSubmit = async (values, onSubmitProps) => {
@@ -122,7 +126,7 @@ const Form = () => {
         setFieldValue,
         resetForm,
       }) => (
-        <form onSubmit={handleSubmit}>
+        <form onSubmit={(e) => { e.preventDefault(); handleSubmit(e) }}>
           <Box
             display="grid"
             gap="30px"

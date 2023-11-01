@@ -7,7 +7,7 @@ import { setFriends } from "state";
 import FlexBetween from "./FlexBetween";
 import UserImage from "./UserImage";
 
-const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
+const Friend = ({ friendId, name, subtitle, userPicturePath, postId, getPosts, getUserPost, isProfile }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const { _id } = useSelector((state) => state.user);
@@ -22,6 +22,24 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
 
   const isFriend = friends.find((friend) => friend._id === friendId);
 
+  const deletePost = async () => {
+
+    await fetch(
+      `http://localhost:8000/api/v1/posts/${postId}`,
+      {
+        method: "DELETE",
+        headers: {
+          Authorization: `Bearer ${token}`,
+
+        },
+      }
+    );
+    if (isProfile)
+      getUserPost()
+    else
+      getPosts();
+
+  }
   const patchFriend = async () => {
     const response = await fetch(
       `http://localhost:8000/api/v1/users/${_id}/${friendId}`,
@@ -67,7 +85,7 @@ const Friend = ({ friendId, name, subtitle, userPicturePath }) => {
         </Box>
       </FlexBetween>
       {friendId === _id ? (
-        <IconButton>{friendId === _id && <DeleteIcon />}</IconButton> // Delete Post Button
+        <IconButton>{friendId === _id && <DeleteIcon onClick={() => deletePost()} />}</IconButton> // Delete Post Button
       ) : (
         <IconButton
           onClick={() => patchFriend()}

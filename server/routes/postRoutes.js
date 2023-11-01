@@ -12,4 +12,6 @@ router.get('/:userId', postConrollers.getUserPosts);
 
 router.patch('/:id/like', postConrollers.likePost);
 
+router.delete('/:Id', postConrollers.deletePost);
+
 module.exports = router;

@@ -82,16 +82,16 @@ exports.login = async (req, res, next) => {
             httpOnly: true,
 
         })
-        const sent_user=await User.findOne({ email }).select("-_v");
+        const sent_user = await User.findOne({ email }).select("-_v");
         res.status(400).json({
             message: 'Loggedin',
             token,
-            user:sent_user
+            user: sent_user
         })
 
     }
     catch (err) {
-        res.status(201).json({
+        res.status(401).json({
             message: err.message,
             error: err
         })
