@@ -3,9 +3,9 @@ const Post = require('../models/postModel')
 
 exports.createPost = async (req, res, next) => {
     try {
-        console.log(req.file);
         let { description, picturePath } = req.body;
-        picturePath = req.file.filename;
+        console.log(req.body);
+        picturePath = req.file?.filename;
         const newPost = new Post({
             userId: req.user[0]._id,
             firstName: req.user[0].firstName,
@@ -29,6 +29,7 @@ exports.createPost = async (req, res, next) => {
 
 
     } catch (err) {
+        console.log(err);
         res.status(409).json({ message: err.message })
     }
 }
