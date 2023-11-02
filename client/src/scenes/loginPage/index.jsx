@@ -12,7 +12,7 @@ const LoginPage = () => {
         p="1rem 6%"
         textAlign="center"
       >
-        <Typography fontWeight="bold" fontSize="32px">
+        <Typography fontWeight="bold" fontSize="32px" fontFamily="cursive">
           Sociopedia
         </Typography>
       </Box>

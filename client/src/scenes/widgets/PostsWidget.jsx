@@ -51,7 +51,13 @@ const PostsWidget = ({ userId, isProfile = false }) => {
     <>
       {loading ? (
         <>
-          <div style={{ display: "flex", justifyContent: "center" }}>
+          <div
+            style={{
+              display: "flex",
+              justifyContent: "center",
+              marginTop: "10rem",
+            }}
+          >
             <CircularProgress />
           </div>
         </>

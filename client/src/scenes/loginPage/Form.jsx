@@ -54,6 +54,7 @@ const Form = () => {
   const isNonMobile = useMediaQuery("(min-width:600px)");
   const isLogin = pageType === "login";
   const isRegister = pageType === "register";
+  const [isFetching, setIsFetching] = useState(false);
 
   const register = async (values, onSubmitProps) => {
     // this allows us to send form info with image
@@ -79,6 +80,7 @@ const Form = () => {
   };
 
   const login = async (values, onSubmitProps) => {
+    setIsFetching(true);
     const loggedInResponse = await fetch(
       "https://socialmedia-zcbw.onrender.com/api/v1/users/login",
       {
@@ -89,6 +91,7 @@ const Form = () => {
     );
     const loggedIn = await loggedInResponse.json();
     if (loggedIn.token === undefined) alert(loggedIn.message);
+    setIsFetching(false);
     onSubmitProps.resetForm();
     if (loggedIn) {
       dispatch(
@@ -246,6 +249,7 @@ const Form = () => {
             <Button
               fullWidth
               type="submit"
+              disabled={isFetching}
               sx={{
                 m: "2rem 0",
                 p: "1rem",
@@ -255,9 +259,16 @@ const Form = () => {
                 "&:hover": {
                   backgroundColor: palette.neutral.main,
                 },
+                "&:disabled": {
+                  color: "#fff",
+                },
               }}
             >
-              {isLogin ? "LOGIN" : "REGISTER"}
+              {isLogin
+                ? isFetching
+                  ? "Signing you in...."
+                  : "LOGIN"
+                : "REGISTER"}
             </Button>
             <Typography
               onClick={() => {
